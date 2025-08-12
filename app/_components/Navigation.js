@@ -4,26 +4,26 @@ const Navigation = () => {
   return (
     <nav className="flex gap-4 p-4">
       <ul>
-        <li className="text-2xl font-bold">
+        <li className="">
           {" "}
-          <Link href={"/"} className="text-blue-500 underline">
+          <Link href={"/"} className="">
             HOme
           </Link>
         </li>
-        <li className="text-2xl font-bold">
+        <li className="">
           {" "}
-          <Link href={"/about"} className="text-blue-500 underline">
+          <Link href={"/about"} className="">
             About
           </Link>
         </li>
-        <li className="text-2xl font-bold">
+        <li className="">
           {" "}
-          <Link href={"account"} className="text-blue-500 underline">
+          <Link href={"account"} className="">
             Account
           </Link>
         </li>
-        <li className="text-2xl font-bold">
-          <Link href={"/cabins"} className="text-blue-500 underline">
+        <li className="">
+          <Link href={"/cabins"} className="">
             Cabins
           </Link>
         </li>
