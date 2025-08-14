@@ -1,7 +1,6 @@
 export const metadata = {
   title: "Account Page",
 };
-
 const Page = () => {
   return (
     <div>
