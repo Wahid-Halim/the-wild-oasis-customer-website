@@ -2,10 +2,17 @@ import { getCabin } from "@/app/_lib/data-service";
 import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 
+export const generateMetadata = async ({ params }) => {
+  const { name } = await getCabin(params?.cabinId);
+  return {
+    title: `Cabin ${name}`,
+  };
+};
+
 const Page = async ({ params }) => {
   const cabin = await getCabin(params?.cabinId);
 
-  const { id, name, maxCapacity, regularPrice, discount, image, description } =
+  const { id, name, maxCapaciy, regularPrice, discount, image, description } =
     cabin;
 
   return (
@@ -31,8 +38,7 @@ const Page = async ({ params }) => {
             <li className="flex gap-3 items-center">
               <UsersIcon className="h-5 w-5 text-primary-600" />
               <span className="text-lg">
-                For up to <span className="font-bold">{maxCapacity}</span>{" "}
-                guests
+                For up to <span className="font-bold">{maxCapaciy}</span> guests
               </span>
             </li>
             <li className="flex gap-3 items-center">
