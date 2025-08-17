@@ -17,7 +17,6 @@ export async function getCabin(id) {
   if (error) {
     console.log(error);
   }
-  console.log(data,'cabins');
 
   return data;
 }
