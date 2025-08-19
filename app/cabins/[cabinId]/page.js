@@ -1,4 +1,5 @@
 import CabinList from "@/app/_components/CabinList";
+import TextExpander from "@/app/_components/TextExpander";
 import { getCabins, getCabin } from "@/app/_lib/data-service";
 import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
@@ -14,10 +15,8 @@ export const generateStaticParams = async () => {
   const cabins = await getCabins();
 
   const ids = cabins?.map((cabin) => ({
-    cabinId: String(cabin.id), // wrap in parentheses to return object
+    cabinId: String(cabin.id),
   }));
-
-  console.log(ids);
 
   return ids;
 };
@@ -45,7 +44,9 @@ const Page = async ({ params }) => {
             Cabin {name}
           </h3>
 
-          <p className="text-lg text-primary-300 mb-10">{description}</p>
+          <p className="text-lg text-primary-300 mb-10">
+            <TextExpander>{description}</TextExpander>
+          </p>
 
           <ul className="flex flex-col gap-4 mb-7">
             <li className="flex gap-3 items-center">
