@@ -1,8 +1,5 @@
 import CabinList from "@/app/_components/CabinList";
-<<<<<<< HEAD
 import TextExpander from "@/app/_components/TextExpander";
-=======
->>>>>>> e6d820e8a07d233ec79f7d84c62ecd15ecd48326
 import { getCabins, getCabin } from "@/app/_lib/data-service";
 import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
@@ -18,17 +15,9 @@ export const generateStaticParams = async () => {
   const cabins = await getCabins();
 
   const ids = cabins?.map((cabin) => ({
-<<<<<<< HEAD
     cabinId: String(cabin.id),
   }));
 
-=======
-    cabinId: String(cabin.id), // wrap in parentheses to return object
-  }));
-
-  console.log(ids);
-
->>>>>>> e6d820e8a07d233ec79f7d84c62ecd15ecd48326
   return ids;
 };
 
