@@ -1,9 +1,14 @@
+"use client";
+
+import { useReservation } from "../_context/ReservationContext";
+
 function ReservationForm({ cabin }) {
-  // CHANGE
+  const { range, serRange } = useReservation();
+
   const { maxCapaciy } = cabin;
 
   return (
-    <div className="scale-[1.01] ">
+    <div className="scale-[1.01] basis-[300px]">
       <div className="bg-primary-800 text-primary-300 px-16 py-2 flex justify-between items-center ">
         <p>Logged in as</p>
 
