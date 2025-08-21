@@ -1,6 +1,12 @@
-import CabinList from "@/app/_components/CabinList";
+import DateSelector from "@/app/_components/DateSelector";
+import ReservationForm from "@/app/_components/ReservationForm";
 import TextExpander from "@/app/_components/TextExpander";
-import { getCabins, getCabin } from "@/app/_lib/data-service";
+import {
+  getCabins,
+  getCabin,
+  getSettings,
+  getBookedDatesByCabinId,
+} from "@/app/_lib/data-service";
 import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 
@@ -23,6 +29,9 @@ export const generateStaticParams = async () => {
 
 const Page = async ({ params }) => {
   const cabin = await getCabin(params?.cabinId);
+  const settings = await getSettings();
+  const bookingDates = await getBookedDatesByCabinId(params?.id);
+
 
   const { id, name, maxCapaciy, regularPrice, discount, image, description } =
     cabin;
@@ -73,9 +82,11 @@ const Page = async ({ params }) => {
       </div>
 
       <div>
-        <h2 className="text-5xl font-semibold text-center">
-          Reserve today. Pay on arrival.
+        <h2 className="text-5xl font-semibold text-center mb-10 text-accent-400">
+          Reserve {name} today. Pay on arrival.
         </h2>
+
+
       </div>
     </div>
   );

@@ -1,3 +1,5 @@
+"use client";
+
 import { isWithinInterval } from "date-fns";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
@@ -27,7 +29,6 @@ function DateSelector() {
   return (
     <div className="flex flex-col justify-between">
       <DayPicker
-        className="pt-12 place-self-center"
         mode="range"
         min={minBookingLength + 1}
         max={maxBookingLength}
@@ -36,6 +37,11 @@ function DateSelector() {
         toYear={new Date().getFullYear() + 5}
         captionLayout="dropdown"
         numberOfMonths={2}
+        classNames={{
+          months: "flex gap-8",
+          today: `border border-accent-400 rounded-full`, // Add a border to today's date
+          selected: `bg-amber-500 border-amber-500 text-white`, 
+        }}
       />
 
       <div className="flex items-center justify-between px-8 bg-accent-500 text-primary-800 h-[72px]">
