@@ -1,5 +1,4 @@
 "use server";
-import { se } from "date-fns/locale";
 import { auth, signIn, signOut } from "./auth";
 import { supabase } from "./supabase";
 import { revalidatePath } from "next/cache";
@@ -39,7 +38,33 @@ export const editReservation = async (formData) => {
   redirect("/account/reservations");
 };
 
-export const deleteReservation = async (bookingId) => {
+export const createBooking = async (bookingData, formData) => {
+  const session = await auth();
+  if (!session) throw new Error("You must be logged In!");
+
+  const newBooking = {
+    ...bookingData,
+    guestId: session.user.guestId,
+    numGuests: Number(formData.get("numGuests")),
+    observations: formData.get("observations").slice(0, 1000),
+    extrasPrice: 0,
+    totalPrice: bookingData.cabinPrice,
+    isPaid: false,
+    hasBreakfast: false,
+    status: "unconfirmed",
+  };
+
+  const { error } = await supabase.from("bookings").insert([newBooking]);
+
+  if (error) {
+    throw new Error("Booking could not be created");
+  }
+
+  revalidatePath(`cabins/${bookingData.cabinId}`);
+  redirect("/cabins/thankyou");
+};
+
+export const deleteBooking = async (bookingId) => {
   const session = await auth();
   if (!session) throw new Error("You must be logged In!");
 

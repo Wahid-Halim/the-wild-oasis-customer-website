@@ -1,26 +1,56 @@
 "use client";
 
+import {
+  differenceInDays,
+  isPast,
+  isSameDay,
+  isWithinInterval,
+} from "date-fns";
 import { useReservation } from "../_context/ReservationContext";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 
-function DateSelector({ cabin, bookedDates, settings }) {
+// Check if a selected range overlaps with booked dates
+const isAlreadyBooked = (range, datesArr) => {
+  return (
+    range.from &&
+    range.to &&
+    datesArr?.some((date) =>
+      isWithinInterval(new Date(date), {
+        start: range.from,
+        end: range.to,
+      })
+    )
+  );
+};
+
+function DateSelector({ cabin, bookedDates = [], settings }) {
   const { range, setRange, resetRange } = useReservation();
 
-  // CHANGE
-  const regularPrice = 23;
-  const discount = 23;
-  const numNights = 23;
-  const cabinPrice = 23;
+  // Normalize bookedDates → always Date objects
+  const normalizedBookedDates = bookedDates.map((d) => new Date(d));
 
-  // SETTINGS
+  // If user selects an invalid range, ignore it
+  const displayRange = isAlreadyBooked(range, normalizedBookedDates)
+    ? {}
+    : range;
+
+  const { regularPrice, discount } = cabin;
+
+  const numNights =
+    displayRange.from && displayRange.to
+      ? differenceInDays(displayRange.to, displayRange.from)
+      : 0;
+
+  const cabinPrice = numNights * (regularPrice - discount);
+
   const { minBookingLength, maxBookingLength } = settings;
 
   return (
     <div className="flex flex-col justify-between">
       <DayPicker
         mode="range"
-        selected={range}
+        selected={displayRange}
         onSelect={setRange}
         numberOfMonths={2}
         fromDate={new Date()}
@@ -31,6 +61,10 @@ function DateSelector({ cabin, bookedDates, settings }) {
         classNames={{
           months: "flex gap-6",
         }}
+        disabled={(curDate) =>
+          isPast(curDate) ||
+          normalizedBookedDates.some((date) => isSameDay(date, curDate))
+        }
       />
 
       <div className="flex items-center justify-between px-8 bg-accent-500 text-primary-800 h-[72px]">
@@ -48,7 +82,7 @@ function DateSelector({ cabin, bookedDates, settings }) {
             )}
             <span className="">/night</span>
           </p>
-          {numNights ? (
+          {numNights > 0 && (
             <>
               <p className="bg-accent-600 px-3 py-2 text-2xl">
                 <span>&times;</span> <span>{numNights}</span>
@@ -58,7 +92,7 @@ function DateSelector({ cabin, bookedDates, settings }) {
                 <span className="text-2xl font-semibold">${cabinPrice}</span>
               </p>
             </>
-          ) : null}
+          )}
         </div>
 
         {range.from || range.to ? (

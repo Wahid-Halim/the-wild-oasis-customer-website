@@ -4,12 +4,20 @@ import DeleteReservation from "@/app/_components/DeleteReservation";
 import Image from "next/image";
 import Link from "next/link";
 
-export const formatDistanceFromNow = (dateStr) =>
-  formatDistance(parseISO(dateStr), new Date(), {
-    addSuffix: true,
-  }).replace("about ", "");
+// Safe helper function
+export const formatDistanceFromNow = (dateStr) => {
+  if (!dateStr) return "Invalid date";
 
-function ReservationCard({ booking }) {
+  try {
+    return formatDistance(parseISO(dateStr), new Date(), {
+      addSuffix: true,
+    }).replace("about ", "");
+  } catch {
+    return "Invalid date";
+  }
+};
+
+function ReservationCard({ booking, onDelete }) {
   const {
     id,
     guestId,
@@ -39,7 +47,7 @@ function ReservationCard({ booking }) {
           <h3 className="text-xl font-semibold">
             {numNights} nights in Cabin {name}
           </h3>
-          {isPast(new Date(startDate)) ? (
+          {startDate && isPast(new Date(startDate)) ? (
             <span className="bg-yellow-800 text-yellow-200 h-7 px-3 uppercase text-xs font-bold flex items-center rounded-sm">
               past
             </span>
@@ -51,11 +59,17 @@ function ReservationCard({ booking }) {
         </div>
 
         <p className="text-lg text-primary-300">
-          {format(new Date(startDate), "EEE, MMM dd yyyy")} (
-          {isToday(new Date(startDate))
-            ? "Today"
-            : formatDistanceFromNow(startDate)}
-          ) &mdash; {format(new Date(endDate), "EEE, MMM dd yyyy")}
+          {startDate
+            ? `${format(new Date(startDate), "EEE, MMM dd yyyy")} (${
+                isToday(new Date(startDate))
+                  ? "Today"
+                  : formatDistanceFromNow(startDate)
+              }) — ${
+                endDate
+                  ? format(new Date(endDate), "EEE, MMM dd yyyy")
+                  : "Unknown end date"
+              }`
+            : "Unknown reservation date"}
         </p>
 
         <div className="flex gap-5 mt-auto items-baseline">
@@ -65,13 +79,16 @@ function ReservationCard({ booking }) {
             {numGuests} guest{numGuests > 1 && "s"}
           </p>
           <p className="ml-auto text-sm text-primary-400">
-            Booked {format(new Date(created_at), "EEE, MMM dd yyyy, p")}
+            Booked{" "}
+            {created_at
+              ? format(new Date(created_at), "EEE, MMM dd yyyy, p")
+              : "Unknown date"}
           </p>
         </div>
       </div>
 
       <div className="flex flex-col border-l border-primary-800 w-[100px]">
-        {!isPast(startDate) ? (
+        {startDate && !isPast(new Date(startDate)) ? (
           <>
             <Link
               href={`/account/reservations/edit/${id}`}
@@ -80,7 +97,7 @@ function ReservationCard({ booking }) {
               <PencilSquareIcon className="h-5 w-5 text-primary-600 group-hover:text-primary-800 transition-colors" />
               <span className="mt-1">Edit</span>
             </Link>
-            <DeleteReservation bookingId={id} />
+            <DeleteReservation bookingId={id} onDelete={onDelete} />
           </>
         ) : null}
       </div>

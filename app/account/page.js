@@ -1,12 +1,8 @@
-import { auth } from "../_lib/auth";
-
-export const metadata = {
-  title: "Account Page",
-};
-
 const Page = async () => {
   const session = await auth();
-  const firstName = session.user.name.split(" ").at(0);
+  const firstName = session?.user?.name
+    ? session.user.name.split(" ").at(0)
+    : "Guest";
 
   return (
     <div>
@@ -16,5 +12,3 @@ const Page = async () => {
     </div>
   );
 };
-
-export default Page;
