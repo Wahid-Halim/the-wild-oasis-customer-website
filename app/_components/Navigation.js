@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { auth } from "../_lib/auth";
-import Image from "next/image";
+import { auth } from "@/app/_lib/auth";
 
 const Navigation = async () => {
   const session = await auth();
+
   return (
     <nav className="z-10 text-xl">
       <ul className="flex gap-16 items-center">

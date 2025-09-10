@@ -1,3 +1,5 @@
+import { auth } from "@/app/_lib/auth";
+
 const Page = async () => {
   const session = await auth();
   const firstName = session?.user?.name
@@ -12,3 +14,5 @@ const Page = async () => {
     </div>
   );
 };
+
+export default Page;
