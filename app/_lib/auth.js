@@ -23,14 +23,21 @@ const authConfig = {
         }
 
         return true;
-      } catch {
+      } catch (error) {
+        console.error("SignIn error:", error);
         return false;
       }
     },
     async session({ session, user }) {
-      const guest = await getGuest(session.user.email);
-      session.user.guestId = guest.id;
-      return session;
+      try {
+        const guest = await getGuest(session.user.email);
+        session.user.guestId = guest?.id || null;
+        return session;
+      } catch (error) {
+        console.error("Session error:", error);
+        session.user.guestId = null;
+        return session;
+      }
     },
   },
   pages: {
