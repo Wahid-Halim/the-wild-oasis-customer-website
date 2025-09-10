@@ -153,11 +153,7 @@ export async function getCountries() {
 // CREATE
 
 export async function createGuest(newGuest) {
-  const { data, error } = await supabase
-    .from("guests")
-    .insert([newGuest])
-    .select()
-    .single();
+  const { data, error } = await supabase.from("guests").insert([newGuest]);
 
   if (error) {
     console.error(error);
@@ -182,7 +178,7 @@ export async function createGuest(newGuest) {
 
 //   return data;
 // }
-  
+
 /////////////
 // UPDATE
 
