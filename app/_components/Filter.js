@@ -15,7 +15,7 @@ const Filter = () => {
   };
 
   return (
-    <div className="border border-primary-800 flex">
+    <div className="border border-primary-800 flex flex-wrap">
       <Button
         filter="all"
         handlerFilter={handlerFilter}
@@ -42,7 +42,6 @@ const Filter = () => {
         handlerFilter={handlerFilter}
         activeFilter={activeFilter}
       >
-        {" "}
         8&mdash;12 guests
       </Button>
     </div>
@@ -52,7 +51,7 @@ const Filter = () => {
 const Button = ({ children, handlerFilter, activeFilter, filter }) => {
   return (
     <button
-      className={`px-5 py-2 hover:bg-primary-700 ${
+      className={`px-3 sm:px-5 py-2 text-sm sm:text-base hover:bg-primary-700 transition-colors ${
         filter === activeFilter ? "bg-primary-700 text-primary-50" : ""
       }`}
       onClick={() => handlerFilter(filter)}

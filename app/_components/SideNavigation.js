@@ -31,23 +31,23 @@ function SideNavigation() {
   const pathname = usePathname();
 
   return (
-    <nav className="border-r border-primary-900 ">
+    <nav className="border-r border-primary-900 w-full">
       <ul className="flex flex-col gap-2 h-full text-lg ">
         {navLinks.map((link) => (
           <li key={link.name}>
             <Link
-              className={`py-3 px-5 hover:bg-primary-900 hover:text-primary-100 transition-colors flex items-center gap-4 font-semibold text-primary-200 ${
+              className={`py-3 px-5 max-md:px-2 max-md:gap-1 hover:bg-primary-900 hover:text-primary-100 transition-colors flex items-center gap-4 font-semibold text-primary-200 ${
                 pathname === link.href ? "bg-primary-900" : ""
               }`}
               href={link.href}
             >
               {link.icon}
-              <span>{link.name}</span>
+              <span className="max-md:hidden">{link.name}</span>
             </Link>
           </li>
         ))}
 
-        <li className="mt-auto ">
+        <li className="mt-auto max-md:mt-[10px] ">
           <SignOutButton />
         </li>
       </ul>

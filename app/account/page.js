@@ -8,7 +8,7 @@ const Page = async () => {
 
   return (
     <div>
-      <h2 className="font-semibold text-2xl text-accent-400 mb-7">
+      <h2 className="font-semibold text-xl sm:text-2xl text-accent-400 mb-1 sm:mb-7">
         Welcome {firstName}
       </h2>
     </div>

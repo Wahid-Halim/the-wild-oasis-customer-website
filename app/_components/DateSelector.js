@@ -48,48 +48,57 @@ function DateSelector({ cabin, bookedDates = [], settings }) {
 
   return (
     <div className="flex flex-col justify-between">
-      <DayPicker
-        mode="range"
-        selected={displayRange}
-        onSelect={setRange}
-        numberOfMonths={2}
-        fromDate={new Date()}
-        toYear={new Date().getFullYear() + 5}
-        captionLayout="dropdown"
-        min={minBookingLength}
-        max={maxBookingLength}
-        classNames={{
-          months: "flex gap-6",
-        }}
-        disabled={(curDate) =>
-          isPast(curDate) ||
-          normalizedBookedDates.some((date) => isSameDay(date, curDate))
-        }
-      />
+      <div className="p-4 sm:p-6 lg:p-8">
+        <DayPicker
+          mode="range"
+          selected={displayRange}
+          onSelect={setRange}
+          numberOfMonths={2}
+          fromDate={new Date()}
+          toYear={new Date().getFullYear() + 5}
+          captionLayout="dropdown"
+          min={minBookingLength}
+          max={maxBookingLength}
+          classNames={{
+            months: "flex flex-col lg:flex-row gap-4 lg:gap-6",
+            month: "flex-1",
+          }}
+          disabled={(curDate) =>
+            isPast(curDate) ||
+            normalizedBookedDates.some((date) => isSameDay(date, curDate))
+          }
+        />
+      </div>
 
-      <div className="flex items-center justify-between px-8 bg-accent-500 text-primary-800 h-[72px]">
-        <div className="flex items-baseline gap-6">
+      <div className="flex flex-col sm:flex-row items-center justify-between px-4 sm:px-6 lg:px-8 bg-accent-500 text-primary-800 min-h-[72px] py-4 sm:py-0">
+        <div className="flex flex-col sm:flex-row items-center sm:items-baseline gap-3 sm:gap-6 mb-4 sm:mb-0">
           <p className="flex gap-2 items-baseline">
             {discount > 0 ? (
               <>
-                <span className="text-2xl">${regularPrice - discount}</span>
-                <span className="line-through font-semibold text-primary-700">
+                <span className="text-xl sm:text-2xl">
+                  ${regularPrice - discount}
+                </span>
+                <span className="line-through font-semibold text-primary-700 text-lg sm:text-xl">
                   ${regularPrice}
                 </span>
               </>
             ) : (
-              <span className="text-2xl">${regularPrice}</span>
+              <span className="text-xl sm:text-2xl">${regularPrice}</span>
             )}
-            <span className="">/night</span>
+            <span className="text-sm sm:text-base">/night</span>
           </p>
           {numNights > 0 && (
             <>
-              <p className="bg-accent-600 px-3 py-2 text-2xl">
+              <p className="bg-accent-600 px-2 sm:px-3 py-1 sm:py-2 text-lg sm:text-2xl">
                 <span>&times;</span> <span>{numNights}</span>
               </p>
-              <p>
-                <span className="text-lg font-bold uppercase">Total</span>{" "}
-                <span className="text-2xl font-semibold">${cabinPrice}</span>
+              <p className="text-center sm:text-left">
+                <span className="text-sm sm:text-lg font-bold uppercase">
+                  Total
+                </span>{" "}
+                <span className="text-xl sm:text-2xl font-semibold">
+                  ${cabinPrice}
+                </span>
               </p>
             </>
           )}
@@ -97,7 +106,7 @@ function DateSelector({ cabin, bookedDates = [], settings }) {
 
         {range.from || range.to ? (
           <button
-            className="border border-primary-800 py-2 px-4 text-sm font-semibold"
+            className="border border-primary-800 py-2 px-4 text-sm font-semibold hover:bg-accent-600 transition-colors"
             onClick={resetRange}
           >
             Clear
