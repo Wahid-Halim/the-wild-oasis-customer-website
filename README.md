@@ -17,7 +17,7 @@ This project is built as part of my React/Next.js learning journey, focusing on 
 
 ## 🛠️ Tech Stack
 
-- **Frontend:** Next.js, React, JavaScript (TypeScript optional)  
+- **Frontend:** Next.js, React, JavaScript
 - **Styling:** Tailwind CSS  
 - **Backend/Database:** Supabase  
 - **Deployment:** Vercel  
